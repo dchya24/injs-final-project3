@@ -39,14 +39,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
         isIn: [["admin", "customer"]]
       }
     },
     balance: {
       type: DataTypes.NUMBER,
-      allowNull: false,
+      // allowNull: false,
       validate: {
         min: 0,
         max: 100000000
