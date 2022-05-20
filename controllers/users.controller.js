@@ -70,7 +70,7 @@ exports.login = async(req, res, next) => {
 
     const token = helper.generateToken({
       id: user.id,
-      name: user.name,
+      full_name: user.full_name,
       role: user.role
     });
 
@@ -161,16 +161,21 @@ exports.delete = async (req, res, next) => {
 }
 
 exports.topup = async (req, res, next) => {
-  const userId = req.user.id
-  const { balance } = req.body;
+  try{
+    const userId = req.user.id
+    const { balance } = req.body;
 
-  const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId);
 
-  user.balance = user.balance + balance;
-  await user.save();
+    user.balance = user.balance + balance;
+    await user.save();
 
-  return res.status(200)
-  .json({
-    message: `Your Balance has been successfully updated to ${helper.convertToIDR(user.balance)}`
-  });
+    return res.status(200)
+    .json({
+      message: `Your Balance has been successfully updated to ${helper.convertToIDR(user.balance)}`
+    });
+  }
+  catch(err){
+    next(err);
+  }
 }
