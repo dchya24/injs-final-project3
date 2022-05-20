@@ -70,7 +70,7 @@ exports.login = async(req, res, next) => {
 
     const token = helper.generateToken({
       id: user.id,
-      name: user.name,
+      full_name: user.full_name,
       role: user.role
     });
 
@@ -86,8 +86,16 @@ exports.login = async(req, res, next) => {
 
 exports.updateUser = async(req, res, next) => {
   try{
-    const userId = req.user.id
+    const userId = req.user.id;
+    const paramUserId = req.params.userId
     const { email, full_name } = req.body;
+
+    if(parseInt(paramUserId) !== parseInt(userId)) {
+      return res.status(401)
+      .json({
+        message: "Unaouthorized!"
+      });
+    }
 
     const user = await User.findByPk(userId);
 
@@ -110,9 +118,62 @@ exports.updateUser = async(req, res, next) => {
         full_name: user.full_name,
         email: user.email,
         createdAt: user.createdAt,
-        updatedAt: user.updateAt
+        updatedAt: user.updatedAt
       }
     })
+  }
+  catch(err){
+    next(err);
+  }
+}
+
+exports.delete = async (req, res, next) => {
+  try{
+    const userId = req.user.id;
+    const paramUserId = req.params.userId;
+
+    if(parseInt(paramUserId) !== parseInt(userId)) {
+      return res.status(401)
+      .json({
+        message: "Unaouthorized!"
+      });
+    }
+
+    const user = await User.findByPk(userId);
+
+    if(!user){
+      return res.status(404)
+      .json({
+        message: "User not found"
+      });
+    }
+
+    await user.destroy();
+
+    return res.status(200)
+    .json({
+      message: "Your account has been successfully deleted"
+    });
+  }
+  catch(err){
+    next(err);
+  }
+}
+
+exports.topup = async (req, res, next) => {
+  try{
+    const userId = req.user.id
+    const { balance } = req.body;
+
+    const user = await User.findByPk(userId);
+
+    user.balance = user.balance + balance;
+    await user.save();
+
+    return res.status(200)
+    .json({
+      message: `Your Balance has been successfully updated to ${helper.convertToIDR(user.balance)}`
+    });
   }
   catch(err){
     next(err);
