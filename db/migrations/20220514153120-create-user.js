@@ -9,16 +9,20 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       full_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       gender: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       role: {
         type: Sequelize.STRING,
@@ -26,6 +30,7 @@ module.exports = {
       },
       balance: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         defaultValue: 0
       },
       createdAt: {
@@ -39,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('User');
   }
 };
