@@ -61,6 +61,7 @@ exports.createTransaction = async(req, res, next) => {
     })
   }
   catch(error){
+    console.log(error.message);
     next(error);
   }
 }
@@ -111,6 +112,7 @@ exports.getTransactionsByAdmin = async(req, res, next) => {
     })
   }
   catch(error){
+    console.log(error.message);
     next(error)
   }
 }
@@ -134,6 +136,7 @@ exports.getTransactionById = async (req, res, next) => {
     .json(transaction)
   }
   catch(error){
+    console.log(error.message);
     next(error)
   }
 }

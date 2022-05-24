@@ -41,6 +41,7 @@ exports.register = async(req, res, next) => {
     })
   }
   catch(error){
+    console.log(error.message);
     next(error);
   }
 }
@@ -80,6 +81,7 @@ exports.login = async(req, res, next) => {
     })
   }
   catch(err){
+    console.log(err.message);
     next(err);
   }
 }
@@ -123,6 +125,7 @@ exports.updateUser = async(req, res, next) => {
     })
   }
   catch(err){
+    console.log(err.message);
     next(err);
   }
 }
@@ -156,6 +159,7 @@ exports.delete = async (req, res, next) => {
     });
   }
   catch(err){
+    console.log(err.message);
     next(err);
   }
 }
@@ -176,6 +180,7 @@ exports.topup = async (req, res, next) => {
     });
   }
   catch(err){
+    console.log(err.message);
     next(err);
   }
 }
