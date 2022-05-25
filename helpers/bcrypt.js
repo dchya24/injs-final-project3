@@ -15,8 +15,8 @@ exports.generateToken = (payload) => {
 }
 
 exports.convertToIDR = (integer) => {
-  const idr = new Intl.NumberFormat("id-ID", { 
-    style: 'currency', 
+  const idr = new Intl.NumberFormat("id-ID", {
+    style: 'currency',
     currency: "IDR",
     minimumFractionDigits: 0
   }).format(integer);
