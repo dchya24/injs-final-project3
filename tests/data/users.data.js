@@ -14,14 +14,14 @@ module.exports = {
     "full_name": "Cahya Dinar Prastyo"
   },
   USER_DATA: {
-    "id": 4,
+    "id": 1,
     "full_name": "Cahya Dinar Prastyo",
     "email": "dchya24@test.com",
     "createdAt": "2022-05-19T05:55:02.829Z",
     "updatedAt": "2022-05-19T05:55:38.683Z"
   },
   USER_DATA_WITH_BALANCE: {
-    "id": 4,
+    "id": 1,
     "full_name": "Cahya Dinar Prastyo",
     "email": "dchya24@test.com",
     "payload": 50000,
@@ -29,7 +29,12 @@ module.exports = {
     "updatedAt": "2022-05-19T05:55:38.683Z"
   },
   USER_PAYLOAD: {
-    "id": 4,
+    "id": 1,
+    "full_name": "Cahya Dinar Prastyo",
+    "role": "customer"
+  },
+  POOR_USER_PAYLOAD: {
+    "id": 2,
     "full_name": "Cahya Dinar Prastyo",
     "role": "customer"
   }

@@ -13,13 +13,15 @@
     "jest": "^28.1.0",
     "node-mocks-http": "^1.11.0",
     "nodemon": "^2.0.16",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "sequelize-mock": "^0.10.2"
   },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "jest test --coverage",
-    "db:generate": "npm sequelize db:create",
-    "db:migrate": "npm sequelize db:migrate"
+    "db:generate": "sequelize db:create",
+    "db:migrate": "sequelize db:migrate",
+    "test:db:setup": "npm run db:generate && npm run db:migrate"
   }
 }

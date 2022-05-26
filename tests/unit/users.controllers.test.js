@@ -83,7 +83,7 @@ describe('UserController.updateUser', () => {
   beforeEach(() => {
     req.user = USER_DATA.USER_PAYLOAD;
     req.body = USER_DATA.USER_UPDATE;
-    req.params.userId = 4;
+    req.params.userId = 1;
   });
 
   it('Should return code 200 when success update User', async() => {
@@ -111,7 +111,7 @@ describe('UserController.updateUser', () => {
   });
 
   it('Should return code 404 when user not found', async() => {
-    req.params.userId = 4;
+    req.params.userId = 1;
 
     User.findByPk.mockResolvedValue(null);
 
@@ -128,10 +128,10 @@ describe('UserController.updateUser', () => {
   });
 });
 
-describe('UserController.updateUser', () => {
+describe('UserController.deleteUser', () => {
   beforeEach(() => {
     req.user = USER_DATA.USER_PAYLOAD;
-    req.params.userId = 4;
+    req.params.userId = 1;
   });
 
   it('Should return code 200 when success delete User', async() => {
@@ -159,7 +159,7 @@ describe('UserController.updateUser', () => {
   });
 
   it('Should return code 404 when user not found', async() => {
-    req.params.userId = 4;
+    req.params.userId = 1;
 
     User.findByPk.mockResolvedValue(null);
     

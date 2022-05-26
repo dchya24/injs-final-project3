@@ -40,7 +40,8 @@ exports.register = async (req, res, next) => {
         }
       })
   }
-  catch (error) {
+  catch(error){
+    console.log(error.message);
     next(error);
   }
 }
@@ -79,7 +80,8 @@ exports.login = async (req, res, next) => {
         token: token
       })
   }
-  catch (err) {
+  catch(err){
+    console.log(err.message);
     next(err);
   }
 }
@@ -122,7 +124,8 @@ exports.updateUser = async (req, res, next) => {
         }
       })
   }
-  catch (err) {
+  catch(err){
+    console.log(err.message);
     next(err);
   }
 }
@@ -155,7 +158,8 @@ exports.delete = async (req, res, next) => {
         message: "Your account has been successfully deleted"
       });
   }
-  catch (err) {
+  catch(err){
+    console.log(err.message);
     next(err);
   }
 }
@@ -175,7 +179,8 @@ exports.topup = async (req, res, next) => {
         message: `Your Balance has been successfully updated to ${helper.convertToIDR(user.balance)}`
       });
   }
-  catch (err) {
+  catch(err){
+    console.log(err.message);
     next(err);
   }
 }
