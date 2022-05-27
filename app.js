@@ -12,8 +12,8 @@ app.use(express.json());
 
 
 app.use("/users", userRouter);
-app.use("/product", productRouter);
-app.use("/category", categoryRouter);
+app.use("/products", productRouter);
+app.use("/categories", categoryRouter);
 app.use("/transactions", transactionRouter);
 
 app.use((err, req, res, next) => {

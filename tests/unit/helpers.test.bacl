@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const helpers = require("../../helpers/helpers")
+const helpers = require("../../helpers/helper")
 const USER_DATA = require("../data/users.data");
 
 jest.mock("jsonwebtoken");

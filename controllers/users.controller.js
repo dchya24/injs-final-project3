@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const helper = require("../helpers/bcrypt");
+const helper = require("../helpers/helper");
 
 exports.register = async (req, res, next) => {
   try {

@@ -1,8 +1,8 @@
 const mock = require("node-mocks-http");
-const ProductController = require("../../controllers/product.controller");
-const { Product } = require("../../models");
-const PRODUCT_DATA = require("../data/product.data");
-const helper = require("../../helpers/helpers");
+const ProductController = require("../../controllers/products.controller");
+const { Product, Category } = require("../../models");
+const PRODUCT_DATA = require("../data/products.data");
+const helper = require("../../helpers/helper");
 
 let req, res, next;
 
@@ -16,126 +16,127 @@ beforeEach(() => {
 
 describe("ProductController.postProduct", () => {
     it("should return a product", async () => {
-        req.body = PRODUCT_DATA.postProduct;
+        req.body = PRODUCT_DATA.PRODUCT_DATA;
         req.userId = 1;
-        Product.findOne.mockResolvedValue(null);
-        Product.create.mockResolvedValue(PRODUCT_DATA.postProduct);
+        Category.findByPk.mockResolvedValue({ id: 2, type: "soft drink"})
+        Product.create.mockResolvedValue(PRODUCT_DATA.PRODUCT_DATA);
         await ProductController.postProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
         expect(res.statusCode).toBe(201);
-        expect(res._getJSON()).toEqual(PRODUCT_DATA.postProduct);
+        expect(res._getJSONData()).toHaveProperty("products");
     });
 
-    it("should return status code 503", async () => {
-        req.body = PRODUCT_DATA.postProduct;
+    it("should return status code 404 when category not found", async () => {
+        req.body = PRODUCT_DATA.PRODUCT_DATA;
         req.userId = 1;
-        Product.findOne.mockResolvedValue(PRODUCT_DATA.postProduct);
+        Category.findByPk.mockResolvedValue(null)
+        Product.findOne.mockResolvedValue(PRODUCT_DATA.PRODUCT_DATA);
         await ProductController.postProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
-        expect(res.statusCode).toBe(503);
+        expect(res.statusCode).toBe(404);
+        expect(res._getJSONData()).toHaveProperty("message");
+    });
 
-        expect(res._getJSON()).toEqual({
-            message: "Product already exists"
-        });
+    it("should handle erros", async () => {
+        req.body = PRODUCT_DATA.PRODUCT_DATA;
+        req.userId = 1;
+        Category.findByPk.mockRejectedValue({mesage: "error"})
+        Product.findOne.mockRejectedValue({mesage: "error"});
+        await ProductController.postProduct(req, res, next);
+
+        expect(next).toHaveBeenCalled();
     });
 });
 
 describe("ProductController.getProduct", () => {
     it("should return a product", async () => {
         req.params.id = 1;
-        Product.findOne.mockResolvedValue(PRODUCT_DATA.getProduct);
+        Product.findAll.mockResolvedValue(PRODUCT_DATA.PRODUCTS);
         await ProductController.getProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
         expect(res.statusCode).toBe(200);
-        expect(res._getJSON()).toEqual(PRODUCT_DATA.getProduct);
+        expect(res._getJSONData()).toHaveProperty("products", PRODUCT_DATA.PRODUCTS);
     });
 
-    it('should return status code 503', async () => {
+    it('should handle errors', async () => {
         req.params.id = 1;
-        Product.findOne.mockResolvedValue(null);
+        Product.findAll.mockRejectedValue({message: "error"});
         await ProductController.getProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
-        expect(res.statusCode).toBe(503);
-
-        expect(res._getJSON()).toEqual({
-            message: "Product does not exist"
-        });
+        expect(next).toHaveBeenCalled();
     });
 });
 
 describe("ProductController.putProduct", () => {
     it("should return a product", async () => {
         req.params.id = 1;
-        req.body = PRODUCT_DATA.putProduct;
+        req.body = PRODUCT_DATA.PUT_PRODUCT;
         req.userId = 1;
-        Product.findOne.mockResolvedValue(PRODUCT_DATA.putProduct);
-        Product.update.mockResolvedValue(PRODUCT_DATA.putProduct);
+        Product.findByPk.mockResolvedValue({
+            ...PRODUCT_DATA.PUT_PRODUCT,
+            save: jest.fn()
+        });
+
         await ProductController.putProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
         expect(res.statusCode).toBe(200);
-        expect(res._getJSON()).toEqual(PRODUCT_DATA.putProduct);
+        expect(res._getJSONData()).toHaveProperty("product");
     });
 
-    it('should return status code 503', async () => {
+    it('should return status code 404 when product not found', async () => {
         req.params.id = 1;
-        req.body = PRODUCT_DATA.putProduct;
+        req.body = PRODUCT_DATA.PUT_PRODUCT;
         req.userId = 1;
-        Product.findOne.mockResolvedValue(null);
+        Product.findByPk.mockResolvedValue(null);
         await ProductController.putProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
-        expect(res.statusCode).toBe(503);
+        expect(res.statusCode).toBe(404);
 
-        expect(res._getJSON()).toEqual({
-            message: "Product does not exist"
-        });
+        expect(res._getJSONData()).toHaveProperty("message", "Product not found!");
     });
-});
-
-describe("ProductController.patchProduct", () => {
-    it("should return a product", async () => {
+    it('should handle errors', async () => {
         req.params.id = 1;
-        req.body = PRODUCT_DATA.patchProduct;
+        req.body = PRODUCT_DATA.PUT_PRODUCT;
         req.userId = 1;
-        Product.findOne.mockResolvedValue(PRODUCT_DATA.patchProduct);
-        Product.update.mockResolvedValue(PRODUCT_DATA.patchProduct);
-        await ProductController.patchProduct(req, res, next);
+        Product.findByPk.mockRejectedValue({ message: "error"});
+        await ProductController.putProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
-        expect(res.statusCode).toBe(200);
-        expect(res._getJSON()).toEqual(PRODUCT_DATA.patchProduct);
-    });
-
-    it('should return status code 503', async () => {
-        req.params.id = 1;
-        req.body = PRODUCT_DATA.patchProduct;
-        req.userId = 1;
-        Product.findOne.mockResolvedValue(null);
-        await ProductController.patchProduct(req, res, next);
-
-        expect(res._isJSON()).toBe(true);
-        expect(res.statusCode).toBe(503);
-
-        expect(res._getJSON()).toEqual({
-        });
+        expect(next).toHaveBeenCalled();
     });
 });
 
 describe("ProductController.deleteProduct", () => {
-    it("should return a product", async () => {
+    it("should return 200 when success delete product", async () => {
         req.params.id = 1;
-        req.userId = 1;
-        Product.findOne.mockResolvedValue(PRODUCT_DATA.deleteProduct);
-        Product.destroy.mockResolvedValue(PRODUCT_DATA.deleteProduct);
+        Product.destroy.mockResolvedValue(PRODUCT_DATA.PRODUCT_DATA);
         await ProductController.deleteProduct(req, res, next);
 
-        expect(res._isJSON()).toBe(true);
         expect(res.statusCode).toBe(200);
-        expect(res._getJSON()).toEqual(PRODUCT_DATA.deleteProduct);
+        expect(res._getJSONData()).toHaveProperty("message", "Your product has been successfully deleted");
+    });
+    
+    it('should return status code 404 when product not found', async () => {
+        req.params.id = 1;
+        Product.destroy.mockResolvedValue(null);
+        await ProductController.deleteProduct(req, res, next);
+
+        expect(res._getJSONData()).toHaveProperty("message", "Product not found!");
+    });
+
+    it("should handle errors", async () => {
+        req.params.id = 1;
+        Product.destroy.mockRejectedValue({ message: "error"});
+        await ProductController.deleteProduct(req, res, next);
+
+        expect(next).toHaveBeenCalled();
+    });
+});
+
+describe("handdle errors patchProduct", () => {
+    it('should handle errors', async () => {
+        Category.findByPk.mockRejectedValue({ message: "error "});
+        await ProductController.patchProduct(req, res, next);
+        console.log(res._getData());
+        expect(next).toHaveBeenCalled();
     });
 });

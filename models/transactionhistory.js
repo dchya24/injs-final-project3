@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const helper = require("../helpers/helpers")
+const helper = require("../helpers/helper")
 module.exports = (sequelize, DataTypes) => {
   class TransactionHistory extends Model {
     /**

@@ -4,7 +4,7 @@ const {
   User, 
   Category 
 } = require("../models");
-const helper = require("../helpers/helpers");
+const helper = require("../helpers/helper");
 
 exports.createTransaction = async(req, res, next) => {
   try{

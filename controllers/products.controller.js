@@ -10,6 +10,16 @@ exports.postProduct = async (req, res, next) => {
             stock,
             CategoryId
         } = req.body;
+
+        const category = await Category.findByPk(CategoryId);
+
+        if(!category){
+            return res.status(404)
+            .json({
+                message: `Category with id ${CategoryId} not found!`
+            })
+        }
+        
         const products = await Product.create({
             title: title,
             price: price,
@@ -24,7 +34,10 @@ exports.postProduct = async (req, res, next) => {
                     id: products.id,
                     title: products.title,
                     price: helper.convertToIDR(products.price),
-                    categoryid: products.CategoryId
+                    stock: products.stock,
+                    categoryid: products.CategoryId,
+                    createdAt: products.createdAt,
+                    updatedAt: products.updatedAt
                 }
             })
     }
@@ -36,22 +49,7 @@ exports.postProduct = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
     try {
-        const userId = req.userId;
-        const products = await Product.findAll({
-            include: [
-                {
-                    model: Product,
-                    as: 'products',
-                    attributes: ['id', 'title', 'caption', 'poster_image_url']
-                },
-                {
-                    model: Category,
-                    attributes: ['id', 'username', 'profile_image_url']
-                }
-            ],
-            where: { UserId: userId },
-            subQuery: false
-        });
+        const products = await Product.findAll();
 
         return res.status(200)
             .json({
@@ -65,20 +63,14 @@ exports.getProduct = async (req, res, next) => {
 
 exports.putProduct = async (req, res, next) => {
     try {
-        const userId = req.userId;
-        const CategoryId = req.params.CategoryId
+        const productId = req.params.productId
         const {
             price,
             stock,
             title
         } = req.body;
 
-        const product = await Product.findOne({
-            where: {
-                UserId: userId,
-                id: CategoryId
-            }
-        });
+        const product = await Product.findByPk(productId);
 
         if (!product) {
             return res.status(404)
@@ -95,7 +87,15 @@ exports.putProduct = async (req, res, next) => {
 
         return res.status(200)
             .json({
-                product: product
+                product: {
+                    id: product.id,
+                    title: product.title,
+                    price: helper.convertToIDR(product.price),
+                    stock: product.stock,
+                    categoryid: product.CategoryId,
+                    createdAt: product.createdAt,
+                    updatedAt: product.updatedAt
+                }
             });
     }
     catch (e) {
@@ -105,16 +105,21 @@ exports.putProduct = async (req, res, next) => {
 
 exports.patchProduct = async (req, res, next) => {
     try {
-        const userId = req.userId;
+        const productId = req.params.productId;
         const {
             CategoryId
         } = req.body;
 
-        const products = await Product.findOne({
-            where: {
-                UserId: userId
-            }
-        });
+        const category = await Category.findByPk(CategoryId);
+
+        if(!category){
+            return res.status(404)
+            .json({
+                message: `Category with id ${CategoryId} not found!`
+            })
+        }
+
+        const products = await Product.findByPk(productId);
 
         if (!products) {
             return res.status(404)
@@ -129,23 +134,30 @@ exports.patchProduct = async (req, res, next) => {
 
         return res.status(200)
             .json({
-                products: products
+                products: {
+                    id: products.id,
+                    title: products.title,
+                    price: helper.convertToIDR(products.price),
+                    stock: products.stock,
+                    categoryid: products.CategoryId,
+                    createdAt: products.createdAt,
+                    updatedAt: products.updatedAt
+                }
             });
     }
     catch (e) {
+        console.log(e);
         next(e);
     }
 }
 
 exports.deleteProduct = async (req, res, next) => {
     try {
-        const userId = req.userId;
-        const CategoryId = req.params.CategoryId;
+        const productId = req.params.productId;
 
         const products = await Product.destroy({
             where: {
-                UserId: userId,
-                id: CategoryId
+                id: productId
             }
         });
 

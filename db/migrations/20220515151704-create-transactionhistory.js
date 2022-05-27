@@ -41,7 +41,9 @@ module.exports = {
         references: {
           table: "User",
           field: "id"
-        }
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade"
       })
     }).then(() => {
       return queryInterface.addConstraint("TransactionHistory", {
@@ -51,7 +53,9 @@ module.exports = {
         references: {
           table: "Product",
           field: "id"
-        }
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade"
       })
     });
   },

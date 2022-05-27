@@ -2,7 +2,7 @@ const mock = require("node-mocks-http");
 const UserController = require("../../controllers/users.controller");
 const { User } = require("../../models");
 const USER_DATA = require("../data/users.data");
-const helper = require("../../helpers/helpers")
+const helper = require("../../helpers/helper")
 
 let req, res, next;
 
@@ -190,6 +190,8 @@ describe('UserController TopUp', () => {
   });
 
   it('Should handle errors', async() => {
+    req.body.balance = 5000;
+    req.user = USER_DATA.USER_PAYLOAD;
     User.findByPk.mockRejectedValue({ message: "Handle error when TopUp"});
 
     await UserController.topup(req, res, next);

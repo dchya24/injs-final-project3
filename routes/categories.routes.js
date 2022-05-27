@@ -3,27 +3,35 @@ const router = express.Router();
 const controller = require("../controllers/categories.controller");
 const auth = require("../middlewares/auth");
 const validator = require("../middlewares/validator");
-const CATEGORY_SCHEMA = require("../middlewares/schema/product.schema");
+const CATEGORY_SCHEMA = require("../middlewares/schema/category.schema");
 
-router.get("/",
-    validator.validateRequest(auth, controller.getCategory)
+router.get(
+    "/",
+    auth.verifyToken,
+    auth.isAdmin,
+    controller.getCategory
 );
 
 router.post(
     "/",
     validator.validateRequest(CATEGORY_SCHEMA.CATEGORY_POST_BODY),
+    auth.verifyToken,
+    auth.isAdmin,
     controller.postCategory
 );
 
-router.delete("/:userId",
+router.delete(
+    "/:categoryId",
     validator.validateParams(CATEGORY_SCHEMA.CATEGORY_ID_PARAMS),
     auth.verifyToken,
+    auth.isAdmin,
     controller.deleteCategory
 );
 
-router.patch("/",
+router.patch("/:categoryId",
     validator.validateRequest(CATEGORY_SCHEMA.CATEGORY_UPDATE_BODY),
     auth.verifyToken,
+    auth.isAdmin,
     controller.patchCategory
 );
 

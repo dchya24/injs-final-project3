@@ -2,15 +2,12 @@ const { Category, Product } = require("../models");
 
 exports.postCategory = async (req, res, next) => {
     try {
-        const userId = req.userId;
         const {
-            type,
-            sold_product_amount
+            type
         } = req.body;
+        
         const categories = await Category.create({
-            type: type,
-            sold_product_amount: sold_product_amount,
-            UserId: userId
+            type: type
         })
 
         return res.status(201)
@@ -24,23 +21,8 @@ exports.postCategory = async (req, res, next) => {
 
 exports.getCategory = async (req, res, next) => {
     try {
-        const userId = req.userId;
         const categories = await Category.findAll({
-            include: [
-                {
-                    model: Category,
-                    as: 'categories',
-                    attributes: ['id', 'type', 'sold_product_amount'],
-                    include: [{
-                        model: Product,
-                        required: true,
-                        as: 'Products',
-                        attributes: ['id', 'title', 'price', 'stock', 'CategoryId']
-                    }]
-                }
-            ],
-            where: { UserId: userId },
-            subQuery: false
+            include: ['products']
         });
 
         return res.status(200)
@@ -55,16 +37,12 @@ exports.getCategory = async (req, res, next) => {
 
 exports.patchCategory = async (req, res, next) => {
     try {
-        const userId = req.userId;
+        const categoryId = req.params.categoryId;
         const {
             type
         } = req.body;
 
-        const categories = await Category.findOne({
-            where: {
-                UserId: userId,
-            }
-        });
+        const categories = await Category.findByPk(categoryId);
 
         if (!categories) {
             return res.status(404)
@@ -89,11 +67,11 @@ exports.patchCategory = async (req, res, next) => {
 
 exports.deleteCategory = async (req, res, next) => {
     try {
-        const userId = req.userId;
+        const categoryId = req.params.categoryId;
 
         const categories = await Category.destroy({
             where: {
-                UserId: userId
+                id: categoryId
             }
         });
 

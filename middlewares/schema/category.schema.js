@@ -9,5 +9,5 @@ exports.CATEGORY_UPDATE_BODY = joi.object({
 });
 
 exports.CATEGORY_ID_PARAMS = joi.object({
-    productId: joi.number().required()
+    categoryId: joi.number().required()
 });
