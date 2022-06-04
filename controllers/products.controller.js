@@ -1,5 +1,5 @@
 const { Category, Product } = require("../models");
-const helper = require("../helpers/bcrypt");
+const helper = require("../helpers/helper");
 
 exports.postProduct = async (req, res, next) => {
     try {

@@ -121,13 +121,21 @@ exports.getTransactionById = async (req, res, next) => {
   try{
     const { transactionId } = req.params
     const transaction = await TransactionHistory.findOne({
-      where: { id: transactionId },
+      where: { id: transactionId, UserId: req.user.id },
       include: {
         model: Product,
         as: 'Product',
         attributes: ["id", "title", "price", "stock", "CategoryId"]
       }
     });
+
+    console.log(!transaction);
+    if(!transaction){
+      return res.status(404)
+      .json({
+        message: "Transaction Histories not found"
+      })
+    }
 
     transaction.total_price = helper.convertToIDR(transaction.total_price);
     transaction.Product.price = helper.convertToIDR(transaction.Product.price);

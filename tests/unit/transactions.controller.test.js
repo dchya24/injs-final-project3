@@ -59,8 +59,19 @@ describe('TransactionController.getTransactionsByAdmin', () => {
 });
 
 describe('TransactionController.getTransactionById', () => {
+  it('Should return 404 when data not found', async() => {
+    req.params.transactionId = 122;
+    req.user = USER_DATA.POOR_USER_PAYLOAD
+    TransactionHistory.findOne.mockResolvedValue(null);
+
+    await TransactionController.getTransactionById(req, res, next);
+    console.log(res._getData());
+    expect(res.statusCode).toEqual(404);
+  });
+
   it('Should return 200', async() => {
     req.params.transactionId = 2;
+    req.user = USER_DATA.POOR_USER_PAYLOAD
     TransactionHistory.findOne.mockResolvedValue(TRANSACTION_DATA.TRANSACTION_HISTORY);
 
     await TransactionController.getTransactionById(req, res, next);

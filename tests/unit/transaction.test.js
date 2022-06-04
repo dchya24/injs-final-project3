@@ -53,23 +53,24 @@ describe('TransactionController.createTransaction', () => {
     expect(res._getJSONData()).toHaveProperty("message", "Saldo anda tidak mencukupi untuk pembayaran!");
   });
 
-  // it('should return 201 when user success create transactions', async() => {
-  //   req.body.quantity = 2;
-  //   req.body.productId = 2;
-  //   req.user = USER_DATA.USER_PAYLOAD;
+  it('should return 201 when user success create transactions', async() => {
+    req.body.quantity = 1;
+    req.body.productId = 2;
+    req.user = USER_DATA.USER_PAYLOAD;
 
-  //   await TransactionController.createTransaction(req, res, next);
-  //   expect(res.statusCode).toEqual(201);
-  //   expect(res._getJSONData()).toHaveProperty("message", "You have successfully purchase the product");
-  // });
+    await TransactionController.createTransaction(req, res, next);
+    expect(res.statusCode).toEqual(201);
+    expect(res._getJSONData()).toHaveProperty("message", "You have successfully purchase the product");
+  });
 
-  // it('should handle errors', async() => {
-  //   req.body.quantity = 111;
-  //   req.body.productId = 5;
-  //   req.user = USER_DATA.USER_PAYLOAD;
+  it('should handle errors', async() => {
+    req.body.quantity = 3;
+    req.body.productId = 1;
+    req.user = USER_DATA.USER_PAYLOAD;
 
-  //   await TransactionController.createTransaction(req, res, next);
-  //   expect(next).toHaveBeenCalled();
-  // });
+    await TransactionController.createTransaction(req, res, next);
+    console.log(res._getData());
+    expect(next).toHaveBeenCalled();
+  });
 
 });
