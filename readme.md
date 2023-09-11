@@ -4,7 +4,8 @@ PhotoAlbum Apps
 
 Final Project 3 from Kampus Merdeka - Introduce to NodeJS  
 
-URL apps [link](https://injs-finalproject3.herokuapp.com/)
+<!-- URL apps [link](https://injs-finalproject3.herokuapp.com/) -->
+You can use postman collection to use this project. link [link](https://github.com/dchya24/injs-final-project3/blob/main/postman_collection.json)
 
 ## Installation
 
