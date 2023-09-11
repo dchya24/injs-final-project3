@@ -1,0 +1,473 @@
+{
+	"info": {
+		"_postman_id": "63581b92-d4f6-4529-bc56-a6c54bfa25d3",
+		"name": "Final Project 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "3528718",
+		"_collection_link": "https://www.postman.com/dchya24/workspace/public-work-space/collection/3528718-63581b92-d4f6-4529-bc56-a6c54bfa25d3?action=share&source=collection_link&creator=3528718"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "POST Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dchya24@test.com\",\r\n    \"password\": \"secret123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dchya24@test.com\",\r\n    \"full_name\": \"Cahya Dinar\",\r\n    \"gender\": \"male\",\r\n    \"password\": \"secret123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/users/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"full_name\": \"Cahya Dinar Prastyo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/users/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/users/5asd"
+					},
+					"response": []
+				},
+				{
+					"name": "Topup Balance",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_CUSTOMER}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"balance\": 500000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/users/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction History",
+			"item": [
+				{
+					"name": "Create Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_CUSTOMER}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/transactions/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction Histories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_CUSTOMER}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/transactions/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users Transaction Histories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_ADMIN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/transactions/admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/transactions/2a"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_ADMIN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{HOST}}/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_ADMIN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"Sepatu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"Traditional drink\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/categories/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_ADMIN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/categories/4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_ADMIN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Sepatu Bola\",\r\n    \"price\": \"7500\",\r\n    \"stock\": 6,\r\n    \"CategoryId\": 99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Fanta Strobery\",\r\n    \"price\": \"3700\",\r\n    \"stock\": \"8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/products/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"CategoryId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/products/7"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TOKEN_CUSTOMER}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Fanta\",\r\n    \"price\": \"3500\",\r\n    \"stock\": 8,\r\n    \"CategoryId\": \"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST}}/products"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "localhost:3000"
+		},
+		{
+			"key": "TOKEN_ADMIN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiSm9obiBEb2UiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTQzOTg1NjEsImV4cCI6MTY5NDQ4NDk2MX0.ooNU6dhS6-QmwaRZEeyn5sL3zaADsF-b2cO7-PxD7mY"
+		},
+		{
+			"key": "TOKEN_CUSTOMER",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZnVsbF9uYW1lIjoiQ2FoeWEgRGluYXIiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2OTQzOTgzOTAsImV4cCI6MTY5NDQ4NDc5MH0.pMw2-7oIu4vQrbLnoSmDaxFqGgKCbOVOsYdA4qPvAEc"
+		}
+	]
+}
